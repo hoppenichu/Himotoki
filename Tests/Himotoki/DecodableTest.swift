@@ -35,7 +35,7 @@ class DecodableTest: XCTestCase {
             "arrayOption": NSNull(),
             "dictionary": [ "A": 1, "B": 2 ] as JSONDictionary,
             // "dictionaryOption" key is missing
-            "dictionaryArray": [ "A": [1, 2, 3, 4, 5] ],
+            "dictionaryArray": [ "A": [ "123", "456" ] as JSONArray ],
             // "dictionaryArrayOption" key is missing
             "group": gruopJSON,
         ]
@@ -69,7 +69,7 @@ class DecodableTest: XCTestCase {
         XCTAssert(person?.dictionary.count == 2)
         XCTAssert(person?.dictionary["A"] == 1)
         XCTAssert(person?.dictionaryOption == nil)
-        XCTAssert(person!.dictionaryArray == [ "A": [1, 2, 3, 4, 5] ])
+        XCTAssert(person?.dictionaryArray["A"]?.first == "123")
         XCTAssert(person?.dictionaryArrayOption == nil)
 
         XCTAssert(person?.group.name == "Himotoki")
@@ -212,8 +212,8 @@ struct Person: Decodable {
     let arrayOption: [String]?
     let dictionary: [String: Int]
     let dictionaryOption: [String: Int]?
-    let dictionaryArray: [String: [Int]]
-    let dictionaryArrayOption: [String: [Int]]?
+    let dictionaryArray: [String: [String]]
+    let dictionaryArrayOption: [String: [String]]?
 
     let group: Group
     let groups: [Group]
