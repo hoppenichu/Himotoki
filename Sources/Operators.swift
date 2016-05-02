@@ -12,6 +12,8 @@ infix operator <|| { associativity left precedence 150 }
 infix operator <||? { associativity left precedence 150 }
 infix operator <|-| { associativity left precedence 150 }
 infix operator <|-|? { associativity left precedence 150 }
+infix operator <|-|| { associativity left precedence 150 }
+infix operator <|-||? { associativity left precedence 150 }
 
 /// - Throws: DecodeError or an arbitrary ErrorType
 public func <| <T: Decodable>(e: Extractor, keyPath: KeyPath) throws -> T {
@@ -41,4 +43,14 @@ public func <|-| <T: Decodable>(e: Extractor, keyPath: KeyPath) throws -> [Strin
 /// - Throws: DecodeError or an arbitrary ErrorType
 public func <|-|? <T: Decodable>(e: Extractor, keyPath: KeyPath) throws -> [String: T]? {
     return try e.dictionaryOptional(keyPath)
+}
+
+/// - Throws: DecodeError or an arbitrary ErrorType
+public func <|-|| <T: Decodable>(e: Extractor, keyPath: KeyPath) throws -> [String: [T]] {
+    return try e.dictionaryArray(keyPath)
+}
+
+/// - Throws: DecodeError or an arbitrary ErrorType
+public func <|-||? <T: Decodable>(e: Extractor, keyPath: KeyPath) throws -> [String: [T]]? {
+    return try e.dictionaryArrayOptional(keyPath)
 }
