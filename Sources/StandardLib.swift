@@ -80,6 +80,25 @@ extension DictionaryLiteralConvertible where Value: Decodable {
     }
 }
 
+extension DictionaryLiteralConvertible where Value: CollectionType, Value.Generator.Element: Decodable {
+    /// - Throws: DecodeError or an arbitrary ErrorType
+    public static func decode(JSON: AnyJSON) throws -> [String: [Value.Generator.Element]] {
+        guard let dictionary = JSON as? [String: AnyJSON] else {
+            throw typeMismatch("Dictionary", actual: JSON, keyPath: nil)
+        }
+        var result: [String: [Value.Generator.Element]] = [:]
+        try dictionary.forEach { key, value in
+            result[key] = try decodeArray(value)
+        }
+        return result
+    }
+    
+    /// - Throws: DecodeError or an arbitrary ErrorType
+    public static func decode(JSON: AnyJSON, rootKeyPath: KeyPath) throws -> [String: [Value.Generator.Element]] {
+        return try Extractor(JSON).dictionaryArray(rootKeyPath)
+    }
+}
+
 // MARK: Helpers
 
 internal func castOrFail<T>(e: Extractor) throws -> T {
