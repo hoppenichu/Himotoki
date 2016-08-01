@@ -98,17 +98,3 @@ extension DictionaryLiteralConvertible where Value: CollectionType, Value.Genera
         return try Extractor(JSON).dictionaryArray(rootKeyPath)
     }
 }
-
-// MARK: Helpers
-
-internal func castOrFail<T>(e: Extractor) throws -> T {
-    return try castOrFail(e.rawValue)
-}
-
-internal func castOrFail<T>(any: Any?) throws -> T {
-    guard let result = any as? T else {
-        throw typeMismatch("\(T.self)", actual: any, keyPath: nil)
-    }
-
-    return result
-}
