@@ -81,15 +81,15 @@ public struct Extractor {
     }
     
     /// - Throws: DecodeError or an arbitrary ErrorType
-    public func dictionaryArray<T: Decodable>(keyPath: KeyPath) throws -> [String: [T]] {
+    public func dictionaryArray<T: Decodable>(_ keyPath: KeyPath) throws -> [String: [T]] {
         guard let dictionaryArray: [String: [T]] = try dictionaryArrayOptional(keyPath) else {
-            throw DecodeError.MissingKeyPath(keyPath)
+            throw DecodeError.missingKeyPath(keyPath)
         }
         return dictionaryArray
     }
     
     /// - Throws: DecodeError or an arbitrary ErrorType
-    public func dictionaryArrayOptional<T: Decodable>(keyPath: KeyPath) throws -> [String: [T]]? {
+    public func dictionaryArrayOptional<T: Decodable>(_ keyPath: KeyPath) throws -> [String: [T]]? {
         return try _rawValue(keyPath).map([String: [T]].decode)
     }
 }

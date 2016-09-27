@@ -80,10 +80,10 @@ extension ExpressibleByDictionaryLiteral where Value: Decodable {
     }
 }
 
-extension DictionaryLiteralConvertible where Value: CollectionType, Value.Generator.Element: Decodable {
+extension ExpressibleByDictionaryLiteral where Value: Collection, Value.Iterator.Element: Decodable {
     /// - Throws: DecodeError or an arbitrary ErrorType
-    public static func decode(JSON: AnyJSON) throws -> [String: [Value.Generator.Element]] {
-        guard let dictionary = JSON as? [String: AnyJSON] else {
+    public static func decode(_ JSON: Any) throws -> [String: [Value.Iterator.Element]] {
+        guard let dictionary = JSON as? [String: Any] else {
             throw typeMismatch("Dictionary", actual: JSON, keyPath: nil)
         }
         var result: [String: [Value.Generator.Element]] = [:]
@@ -94,7 +94,7 @@ extension DictionaryLiteralConvertible where Value: CollectionType, Value.Genera
     }
     
     /// - Throws: DecodeError or an arbitrary ErrorType
-    public static func decode(JSON: AnyJSON, rootKeyPath: KeyPath) throws -> [String: [Value.Generator.Element]] {
+    public static func decode(_ JSON: Any, rootKeyPath: KeyPath) throws -> [String: [Value.Iterator.Element]] {
         return try Extractor(JSON).dictionaryArray(rootKeyPath)
     }
 }
