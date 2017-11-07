@@ -58,6 +58,12 @@ extension DecodeError: Hashable {
     }
 }
 
+extension DecodeError: CustomNSError {
+    public var errorUserInfo: [String : Any] {
+        return [NSLocalizedDescriptionKey: self.description]
+    }
+}
+
 public func missingKeyPath(_ keyPath: KeyPath) -> DecodeError {
     return DecodeError.missingKeyPath(keyPath)
 }

@@ -123,6 +123,10 @@ class DecodeErrorTest: XCTestCase {
         let customError = Himotoki.customError("This is a custom error")
         XCTAssertEqual(customError, customError)
         XCTAssertEqual(customError.hashValue, customError.hashValue)
+
+        XCTAssertEqual(missingKeyPath.description, (missingKeyPath as! NSError).localizedDescription)
+        XCTAssertEqual(typeMismatch.description, (typeMismatch as! NSError).localizedDescription)
+        XCTAssertEqual(customError.description, (customError as! NSError).localizedDescription)
     }
 }
 
